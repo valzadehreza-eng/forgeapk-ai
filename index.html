@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b18">
+  <title>ForgeAPK AI | تبدیل پروژه به APK</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #080b18;
+      color: #f4f7ff;
+    }
+    header {
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #202945;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .logo { font-size: 23px; font-weight: bold; color: #55d9ff; }
+    nav a { color: #c8d2ee; text-decoration: none; margin: 0 10px; }
+    .hero { text-align: center; padding: 65px 20px 35px; }
+    .badge {
+      display: inline-block; padding: 8px 14px;
+      border: 1px solid #235b83; border-radius: 30px;
+      color: #71dcff; background: #101e35;
+    }
+    h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.5; }
+    h1 span { color: #54d8ff; }
+    .hero p { color: #aab7d3; line-height: 2; }
+    .panel {
+      max-width: 760px; margin: 25px auto; padding: 28px;
+      background: #101629; border: 1px solid #263451;
+      border-radius: 20px;
+    }
+    .upload {
+      display: block; padding: 35px 15px; text-align: center;
+      border: 2px dashed #347da8; border-radius: 15px;
+      background: #0b1325; cursor: pointer;
+    }
+    input[type=file] { display: none; }
+    button {
+      background: linear-gradient(90deg, #168de0, #27c9e8);
+      color: #06101c; border: 0; border-radius: 10px;
+      padding: 14px 22px; font-size: 16px; font-weight: bold;
+      cursor: pointer; width: 100%; margin-top: 18px;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    #status { color: #8ee9ff; overflow-wrap: anywhere; line-height: 2; }
+    .features {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+      gap: 16px; max-width: 1000px; margin: 40px auto; padding: 20px;
+    }
+    .feature {
+      background: #101629; border: 1px solid #263451;
+      border-radius: 15px; padding: 22px; line-height: 1.9;
+    }
+    .feature h3 { color: #63dcff; }
+    footer { text-align: center; padding: 30px; color: #8491ad; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">⚡ ForgeAPK AI</div>
+    <nav>
+      <a href="#builder">ساخت APK</a>
+      <a href="#features">امکانات</a>
+    </nav>
+  </header>
 
+  <section class="hero">
+    <span class="badge">نسل جدید ابزارهای ساخت اندروید</span>
+    <h1>پروژه‌ات را به <span>APK</span> تبدیل کن</h1>
+    <p>فایل پروژه خود را انتخاب کن و برای ساخت نسخه اندرویدی آماده شو.</p>
+  </section>
+
+  <section class="panel" id="builder">
+    <h2>🛠️ سازنده APK</h2>
+    <p>فایل پروژه را انتخاب کن. این نسخه فقط انتخاب فایل را آزمایش می‌کند.</p>
+
+    <label class="upload" for="project">
+      <div style="font-size:38px">📦</div>
+      <strong>برای انتخاب فایل لمس کن</strong>
+      <p>ZIP، HTML، JSON یا فایل پروژه</p>
+      <input id="project" type="file" accept=".zip,.html,.json,.txt,.apk,.aab">
+    </label>
+
+    <p id="fileInfo">هنوز فایلی انتخاب نشده است.</p>
+    <button id="build">بررسی فایل انتخاب‌شده</button>
+    <p id="status" role="status">آماده دریافت فایل هستیم.</p>
+  </section>
+
+  <section class="features" id="features">
+    <article class="feature">
+      <h3>📱 پشتیبانی اندروید</h3>
+      <p>آماده‌سازی زیرساخت تبدیل پروژه‌های سازگار به APK.</p>
+    </article>
+    <article class="feature">
+      <h3>🔐 امنیت فایل</h3>
+      <p>در نسخه سروری، بررسی فایل‌های ورودی باید پیش از ساخت انجام شود.</p>
+    </article>
+    <article class="feature">
+      <h3>☁️ ساخت ابری</h3>
+      <p>قابلیت آینده برای اتصال به سرور کامپایل اندروید.</p>
+    </article>
+  </section>
+
+  <footer>ForgeAPK AI © 2026</footer>
+
+  <script>
+    const input = document.getElementById('project');
+    const info = document.getElementById('fileInfo');
+    const status = document.getElementById('status');
+    const button = document.getElementById('build');
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      info.textContent = file
+        ? `فایل انتخاب‌شده: ${file.name} — ${(
+            file.size / 1024 / 1024
+          ).toFixed(2)} مگابایت`
+        : 'هنوز فایلی انتخاب نشده است.';
+      status.textContent = 'فایل فقط در مرورگر انتخاب شده و هنوز بارگذاری نشده است.';
+    });
+
+    button.addEventListener('click', () => {
+      const file = input.files[0];
+      if (!file) {
+        status.textContent = 'ابتدا یک فایل انتخاب کن.';
+        return;
+      }
+      const allowed = /\.(zip|html|json|txt|apk|aab)$/i.test(file.name);
+      status.textContent = allowed
+        ? 'فایل انتخاب شد؛ برای ساخت APK واقعی باید سرور ساخت متصل شود.'
+        : 'پسوند این فایل در نسخه نمایشی پشتیبانی نمی‌شود.';
+    });
+  </script>
+</body>
+</html>
